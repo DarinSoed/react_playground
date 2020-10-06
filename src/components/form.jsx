@@ -34,7 +34,7 @@ class Form extends Component {
   render() {
     const { username, comments, topic } = this.state;
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form style={{ textAlign: "center" }} onSubmit={this.handleSubmit}>
         <div style={divStyle}>
           <label style={labelSyle}>Username</label>
           <input
