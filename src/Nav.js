@@ -16,6 +16,9 @@ function Nav() {
         <Link style={navStyle} to="/increment">
           <li>Increment</li>
         </Link>
+        <Link style={navStyle} to="/characters">
+          <li>Overwatch Characters</li>
+        </Link>
       </ul>
     </nav>
   );
