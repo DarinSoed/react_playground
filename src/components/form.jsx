@@ -6,12 +6,17 @@ const labelSyle = {
 const divStyle = {
   marginTop: "20px",
 };
+const inputStyle = {
+  textAlign: "center",
+};
 class Form extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: "input username",
+      username: `"input username"`,
+      password: "",
+      email: `"example@email.com"`,
       comment: "",
       topic: "react",
     };
@@ -26,23 +31,54 @@ class Form extends Component {
   handleTopicChange = (event) => {
     this.setState({ topic: event.target.value });
   };
+  handleEmailChange = (event) => {
+    this.setState({ email: event.target.value });
+  };
+  handlePasswordChange = (event) => {
+    this.setState({ password: event.target.value });
+  };
   handleSubmit = (event) => {
-    alert(`${this.state.username} ${this.state.comment} ${this.state.topic}`);
+    alert(
+      `${this.state.username} ${this.state.comment} ${this.state.topic} ${this.state.password} ${this.state.email}`
+    );
     event.preventDefault();
   };
 
   render() {
-    const { username, comments, topic } = this.state;
+    const { username, password, email, comments, topic } = this.state;
     return (
       <form style={{ textAlign: "center" }} onSubmit={this.handleSubmit}>
         <div style={divStyle}>
           <label style={labelSyle}>Username</label>
           <input
+            style={inputStyle}
             type="text"
+            className="form-username"
             value={username}
             onChange={this.handleUsernameChange}
           />
         </div>
+        <div style={divStyle}>
+          <label style={labelSyle}>Password</label>
+          <input
+            style={inputStyle}
+            value={password}
+            type="password"
+            className="form-password"
+            onChange={this.handlePasswordChange}
+          />
+        </div>
+        <div style={divStyle}>
+          <label style={labelSyle}>Email address</label>
+          <input
+            style={inputStyle}
+            value={email}
+            type="email"
+            className="form-email"
+            onChange={this.handleEmailChange}
+          />
+        </div>
+
         <div style={divStyle}>
           <label style={labelSyle}>Comments</label>
           <textarea
