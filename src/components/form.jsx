@@ -1,98 +1,104 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import {db} from "../firebase";
 
 function Form () {
-   const [formData, setFormData] = useState ({
-      username: "",
-      password: "",
-      email: "",
-      description: "",
-      transportation: "",
-  });
 
-const handleChanges = (event) => {
-    let nam = event.target.name;
-    let val = event.target.value;
-    setFormData({
-      ...formData,
-      [nam]: val
-    }); 
-  };
+  const { register, handleSubmit, errors } = useForm();
 
-const handleSubmit = (event) => {
-    alert(
-      `${formData.username} ${formData.description} ${formData.transportation} ${formData.password} ${formData.email}`
-    );
-    const data = {
-      ...formData,
+//    const [formData, setFormData] = useState ({
+//       username: "",
+//       password: "",
+//       email: "",
+//       description: "",
+//       transportation: "",
+//   });
+
+// const handleChanges = (event) => {
+//     let nam = event.target.name;
+//     let val = event.target.value;
+//     setFormData({
+//       ...formData,
+//       [nam]: val
+//     }); 
+//   };
+
+const onSubmit = (data) => {
+    console.log(data);  
+
+    const dataSend = {
+      ...data,
       uid: new Date().getTime()
     };
     db.collection("react-training")
-      .doc(data.uid.toString())
-      .set(data)
-    event.preventDefault();
+      .doc(dataSend.uid.toString())
+      .set(dataSend)
   };
 
+console.log(errors);
 
-
-    const { username, password, email, description, transportation } = formData;
+    // const { username, password, email, description, transportation } = formData;
     return (
-      <form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
-        <div style={divStyle}>
-          <label style={labelSyle}>Username</label>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div >
+          <label>Username</label>
           <input
-            style={inputStyle}
+            ref={register({ required: true })}
             placeholder="Enter username"
             type="text"
             className="form-username"
             name="username"
-            value={username}
-            onChange={handleChanges}
-          />
+            // value={username}
+            // onChange={handleChanges}
+          />{errors.exampleRequired && <span>This field is required</span>}
         </div>
-        <div style={divStyle}>
-          <label style={labelSyle}>Password</label>
+        <div >
+          <label>Password</label>
           <input
-            style={inputStyle}
+            ref={register({ required: true })}
             placeholder="Enter password"
-            value={password}
             type="password"
             name="password"
             className="form-password"
-            onChange={handleChanges}
-          />
+            // value={password}
+            // onChange={handleChanges}
+          />{errors.exampleRequired && <span>This field is required</span>}
         </div>
-        <div style={divStyle}>
-          <label style={labelSyle}>Email address</label>
+        <div >
+          <label >Email address</label>
           <input
-            style={inputStyle}
+          ref={register({ required: true })}
             placeholder="example@email.com"
-            value={email}
             type="email"
             name="email"
             className="form-email"
-            onChange={handleChanges}
-          />
+            // value={email}
+            // onChange={handleChanges}
+          />{errors.exampleRequired && <span>This field is required</span>}
         </div>
-
-        <div style={divStyle}>
-          <label style={labelSyle}>Comments</label>
+        <div >
+          <label >Comments</label>
           <textarea
+          ref={register({ required: true })}
             className="form-description"
             name="description"
-            value={description}
-            onChange={handleChanges}
-          ></textarea>
+            // value={description}
+            // onChange={handleChanges}
+          ></textarea>{errors.exampleRequired && <span>This field is required</span>}
         </div>
-        <div style={divStyle}>
-          <label style={labelSyle}>Form of transportation</label>
-          <select className="form-transportation" name="transportation" value={transportation} onChange={handleChanges}>
-            <option value="cars">cars</option>
+        <div >
+          <label >Form of transportation</label>
+          <select
+          className="form-transportation" 
+          name="transportation" 
+          // value={transportation} 
+          // onChange={handleChanges}
+          ><option value="cars">cars</option>
             <option value="motorcycle">motorcycle</option>
             <option value="bicycle">bicycle</option>
           </select>
         </div>
-        <div style={divStyle}>
+        <div >
           <button type="submit">Submit</button>
         </div>
       </form>
@@ -100,14 +106,5 @@ const handleSubmit = (event) => {
   }
 
 
-const labelSyle = {
-  marginRight: "20px",
-};
-const divStyle = {
-  marginTop: "20px",
-};
-const inputStyle = {
-  textAlign: "center",
-};
 
 export default Form;
