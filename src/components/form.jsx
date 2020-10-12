@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import {db} from "../firebase";
+// import {Input, Button} from "@chakra-ui/core";
 
 function Form () {
 
@@ -25,8 +26,10 @@ function Form () {
 
 const onSubmit = (data) => {
     console.log(data);  
-
-    const dataSend = {
+  alert(
+      `${data.username} ${data.description} ${data.transportation} ${data.password} ${data.email}`
+    );
+const dataSend = {
       ...data,
       uid: new Date().getTime()
     };
@@ -55,14 +58,17 @@ console.log(errors);
         <div >
           <label>Password</label>
           <input
-            ref={register({ required: true })}
+            ref={register({ required: true, pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "invalid email address"
+          }})}
             placeholder="Enter password"
             type="password"
             name="password"
             className="form-password"
             // value={password}
             // onChange={handleChanges}
-          />{errors.exampleRequired && <span>This field is required</span>}
+          />{errors.email && errors.email.message}
         </div>
         <div >
           <label >Email address</label>
@@ -87,7 +93,7 @@ console.log(errors);
           ></textarea>{errors.exampleRequired && <span>This field is required</span>}
         </div>
         <div >
-          <label >Form of transportation</label>
+          <label>Form of transportation</label>
           <select
           className="form-transportation" 
           name="transportation" 

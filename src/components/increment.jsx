@@ -1,53 +1,51 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import NavBar from "./navbar";
 import Counters from "./counters";
 
-class Increment extends Component {
-  state = {
-    counters: [
+function Increment() {
+  const [state, setState] = useState(
+    {counters: [
       { id: 1, value: 4 },
       { id: 2, value: 0 },
       { id: 3, value: 0 },
       { id: 4, value: 0 },
-    ],
-  };
+    ]});
 
-  handleIncrement = (counter) => {
-    const counters = [...this.state.counters];
-    const index = counters.indexOf(counter);
-    counters[index] = { ...counter };
+  const handleIncrement = (c) => {
+     const counters = [...state.counters];
+    const index = counters.indexOf(c);
+    counters[index] = { ...c };
     counters[index].value++;
-    this.setState({ counters });
+    setState({ counters });
   };
-  handleReset = () => {
-    const counters = this.state.counters.map((c) => {
+  const handleReset = () => {
+    const counters = state.counters.map((c) => {
       c.value = 0;
       return c;
     });
-    this.setState({ counters });
+    setState({ counters });
   };
-  handleDelete = (counterId) => {
-    const counters = this.state.counters.filter((c) => c.id !== counterId);
-    this.setState({ counters });
+  const handleDelete = (counterId) => {
+    const counters = state.counters.filter((c) => c.id !== counterId);
+    setState({ counters });
   };
 
-  render() {
     return (
       <React.Fragment>
         <NavBar
-          totalCounters={this.state.counters.filter((c) => c.value > 0).length}
+          totalCounters={state.counters.filter((c) => c.value > 0).length}
         />
         <main className="container">
           <Counters
-            counters={this.state.counters}
-            onReset={this.handleReset}
-            onIncrement={this.handleIncrement}
-            onDelete={this.handleDelete}
+            counters={state.counters}
+            onReset={handleReset}
+            onIncrement={handleIncrement}
+            onDelete={handleDelete}
           />
         </main>
       </React.Fragment>
     );
-  }
+  
 }
 
 export default Increment;
