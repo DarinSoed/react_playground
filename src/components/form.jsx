@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import {db} from "../firebase";
-// import {Input, Button} from "@chakra-ui/core";
+// import {Input, Textarea, FormLabel, Formik, FormHelperText, Button} from "@chakra-ui/core";
 
 function Form () {
 
@@ -37,76 +37,83 @@ const dataSend = {
       .doc(dataSend.uid.toString())
       .set(dataSend)
   };
+const divStyle = {
+  //  display: "flex",
+          // justifyContent: "spaceBetween",
+          alignItems: "center",
+          // margin : "auto"
+}
 
 console.log(errors);
 
     // const { username, password, email, description, transportation } = formData;
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div >
-          <label>Username</label>
+      <form  as="fieldset" onSubmit={handleSubmit(onSubmit)}>
+          <div style={divStyle}><label as="legend" >Username</label>
           <input
             ref={register({ required: true })}
             placeholder="Enter username"
             type="text"
-            className="form-username"
             name="username"
             // value={username}
             // onChange={handleChanges}
-          />{errors.exampleRequired && <span>This field is required</span>}
-        </div>
-        <div >
-          <label>Password</label>
+          />{errors.username && <span>This field is required</span>}
+         </div>
+         <div style={divStyle} ><label as="legend" >Password</label>
           <input
-            ref={register({ required: true, pattern: {
-            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: "invalid email address"
-          }})}
+            ref={register({ required: true , minLength: 8, maxLength: 20})}
             placeholder="Enter password"
             type="password"
             name="password"
-            className="form-password"
             // value={password}
             // onChange={handleChanges}
-          />{errors.email && errors.email.message}
-        </div>
-        <div >
-          <label >Email address</label>
+          />{errors.password && <span> password is invalid </span>}
+      </div> 
+          <div style={divStyle} ><label as="legend" >Email address</label>
           <input
-          ref={register({ required: true })}
+          ref={register({ required: true, pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "invalid email address"
+          } })}
             placeholder="example@email.com"
             type="email"
             name="email"
-            className="form-email"
             // value={email}
             // onChange={handleChanges}
-          />{errors.exampleRequired && <span>This field is required</span>}
-        </div>
-        <div >
-          <label >Comments</label>
+          />
+          {errors.exampleRequired && <span>This field is required</span>}
+       </div>
+        
+          <div style={divStyle} ><label as="legend" >Describe yourself</label>
           <textarea
           ref={register({ required: true })}
-            className="form-description"
             name="description"
             // value={description}
             // onChange={handleChanges}
-          ></textarea>{errors.exampleRequired && <span>This field is required</span>}
-        </div>
-        <div >
-          <label>Form of transportation</label>
+          ></textarea>
+     </div>
+     <div style={divStyle} >     
+     <label as="legend" >Form of transportation</label>
           <select
-          className="form-transportation" 
           name="transportation" 
+          defaultValue="cars"
           // value={transportation} 
           // onChange={handleChanges}
           ><option value="cars">cars</option>
             <option value="motorcycle">motorcycle</option>
             <option value="bicycle">bicycle</option>
-          </select>
-        </div>
-        <div >
-          <button type="submit">Submit</button>
-        </div>
+          </select></div>
+
+
+<div style={divStyle}>
+  <label> insert Picture</label>
+  <input type="file" ref={register} />
+</div>
+
+      <div style={divStyle} ><button
+            type="submit">Submit</button></div>
+          
+   
       </form>
     );
   }

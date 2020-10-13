@@ -5,7 +5,7 @@ import Counters from "./counters";
 function Increment() {
   const [state, setState] = useState(
     {counters: [
-      { id: 1, value: 4 },
+      { id: 1, value: 0 },
       { id: 2, value: 0 },
       { id: 3, value: 0 },
       { id: 4, value: 0 },
@@ -16,6 +16,13 @@ function Increment() {
     const index = counters.indexOf(c);
     counters[index] = { ...c };
     counters[index].value++;
+    setState({ counters });
+  };
+  const handleDecrement = (c) => {
+     const counters = [...state.counters];
+    const index = counters.indexOf(c);
+    counters[index] = { ...c };
+    counters[index].value--;
     setState({ counters });
   };
   const handleReset = () => {
@@ -41,6 +48,7 @@ function Increment() {
             onReset={handleReset}
             onIncrement={handleIncrement}
             onDelete={handleDelete}
+            onDecrement={handleDecrement}
           />
         </main>
       </React.Fragment>

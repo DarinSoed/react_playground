@@ -13,12 +13,18 @@ function Counter (props){
 
     return (
       <div>
-        <span className={getBadgeClasses}>{formatCount}</span>
+        <span className={getBadgeClasses()}>{formatCount()}</span>
         <button
           onClick={() => props.onIncrement(props.counter)}
           className="btn btn-secondary btn-sm"
         >
           Increment
+        </button>
+        <button
+          onClick={() => props.onDecrement(props.counter)}
+          className="btn btn-secondary btn-sm m-2"
+        >
+          Decrement
         </button>
         <button
           onClick={() => props.onDelete(props.counter.id)}
